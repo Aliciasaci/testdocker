@@ -21,6 +21,7 @@ services:
     restart: always
     volumes:
       - './src1:/var/www'
+    working_dir: /var/www
     depends_on:
       - database
 
@@ -29,6 +30,7 @@ services:
       restart: always
       volumes:
         - './src2:/var/www'
+      working_dir: /var/www
       depends_on:
         - database
 
