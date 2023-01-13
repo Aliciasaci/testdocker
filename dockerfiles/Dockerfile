@@ -1,8 +1,16 @@
-FROM php:8-fpm
+FROM node:16.3.0-alpine3.13
 
 WORKDIR /var/www
 
 RUN chmod -R 777 /var/www
+
+COPY package.json package-lock.json ./
+
+RUN npm install
+
+COPY ./node_modules .
+
+FROM php:8-fpm
 
 RUN docker-php-ext-install mysqli pdo pdo_mysql && docker-php-ext-enable pdo mysqli pdo_mysql
 
@@ -52,4 +60,6 @@ RUN set -eux; \
 		chmod +x bin/console; sync; \
     fi
 
-CMD bash -c "composer install --ignore-platform-reqs && npm install"
+CMD bash -c "composer install --ignore-platform-reqs"
+
+#RUN npm -v
